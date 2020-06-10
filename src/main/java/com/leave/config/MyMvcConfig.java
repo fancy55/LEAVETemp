@@ -9,7 +9,7 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 @Configuration
 @EnableWebSecurity
 public class MyMvcConfig extends WebSecurityConfigurerAdapter {
-    //解决 因为spring-security导致了403，post请求会被拦截
+    //解决 因为spring-security导致403，post请求会被拦截
     @Override
     public void configure(WebSecurity web) throws Exception {
         // 忽略匹配项
