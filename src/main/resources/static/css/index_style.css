@@ -1,0 +1,121 @@
+*{margin:0;padding:0;}
+body{font-family: "Microsoft Yahei";background: #666;z-index:10;}
+a{text-decoration: none;color:black;}
+.main{width:18em;margin:0 auto;}
+.left{width:5em;height:100%;float:left;background: #2E3238;}
+.right{width:13em;height:100%;float:right;background: #EEEEEE;}
+
+
+#message-tip{display:none;position:absolute;top:3em;left:40%;width:5em;background:red;}
+/*用户头部样式开始*/
+.user-top{width:4.5em;height:1em;margin:0.3em 0.25em 0.25em 0.25em;}
+.user-top img{display:block;float:left;border-radius:0.1em;width:1em;height:1em;}
+.user-top p{font-size: 0.35em;float:left;padding-left: 0.4em;padding-top:0.2em;color:white;}
+.user-top span{font-size: 0.6em;float:right;}
+/*用户头部样式结束*/
+
+/*添加好友的弹出层样式开始*/
+.add-friend{position:absolute; z-index:999;display:none;top:1.2em;left:5.5em;width:4em;border-radius: 0.2em;background: white;}
+.add-input{width:3.5em;height:0.5em;margin:0.25em;}
+.add-input input{width:100%;height:100%;float:left;border:0.01em solid #c1c1c1;outline:0;font-family: "Microsoft Yahei";border-radius: 0.3em;}
+.seeked{width:3.5em;height:0.8em;margin:0 auto;}
+.null{color:red;font-size: 0.3em;text-align: center;}
+.headimg{width:0.8em;height:0.8em;float:left;}
+.headimg img{display:block;border-radius: 0.1em;width:100%;height:100%;}
+.f-info{width:1.95em;height:0.8em;float:left;}
+.f-info p{font-size: 0.25em;padding-left:0.4em;padding-top:0.2em;}
+.add-submit{width:0.7em;height:0.4em;cursor: pointer;margin-top:0.2em;float:left;text-align:center;line-height: 0.4em;border-radius: 0.1em;border:0.01em solid #24272c;}
+.add-submit p{font-size: 0.25em;}
+.button{width:3.5em;height:0.5em;margin:0.25em;}
+.add-search,.cancle{width:1.4em;height:0.5em;text-align: center;line-height: 0.5em;border-radius: 0.1em;border:0.01em solid #24272c;}
+.cancle{float:left;}
+.cancle a,.add-search a{display:block;width:100%;height:100%;font-size: 0.3em;}
+.add-search{float:right;}
+
+/*添加好友的弹出层样式结束*/
+
+/*搜索框样式*/
+.search{width:4.5em;height:0.6em;margin:0 auto;background: #26292e;border-radius: 0.1em;}
+.search-icon{width:0.6em;height:0.6em;float:left;}
+.search-icon img{display:block;width:0.4em;height:0.4em;padding:0.1em;}
+.input{width:3.9em;height:0.6em;float:left;}
+.input input{float:left;display:block;width:98%;color:white;height:100%;border:none;background: #26292e;border-radius: 0.1em;font-family: "Microsoft Yahei";outline: 0;}
+
+.tab-tag{width:5em;height:0.5em;margin-top:0.2em;}
+.message,.contact,.friend{width:1.64em;height:0.5em;cursor: pointer;float:left;border-left:0.01em solid #24272c;}
+.message img,.contact img,.friend img{display:block;margin:0 auto;width:0.5em;height:0.5em;}
+
+.message-content{display:block;width:5em;margin-top:0.1em;border-top:0.01em solid #24272c;}
+.item{width:5em;height:1em;cursor: pointer;overflow: hidden;border-bottom:0.01em solid #24272c;}
+.wrap{width:4.5em;height:0.7em;margin:0.15em 0.25em;}
+.img{width:0.7em;height:0.7em;float:left;}
+.img img{display:block;width:100%;height:100%;border-radius: 0.1em;}
+.text{width:3em;height:0.7em;float:left;}
+.text p{font-size: 0.25em;padding-top:0em;padding-left:0.5em;font-weight: bold;color:white;}
+.time{width:0.8em;height:0.7em;float:left;}
+.time p{font-size: 0.22em;text-align: right;color:#6b6f7c;}
+.null-tip{text-align: center;font-size:0.3em;color:#6b6f7c;}
+
+.contact-content{display:none;border-top:0.01em solid #24272c;margin-top: 0.1em;}
+.sys-message{width:4.5em;height:0.8em;margin:0.1em 0.25em;}
+.sys-headimg{width:0.8em;height:0.8em;float:left;}
+.sys-headimg img{display:block;border-radius: 0.1em;width:100%;height:100%;}
+.sys-f-info{width:2.6em;height:0.8em;float:left;}
+.sys-f-info p{font-size: 0.25em;padding-left:0.4em;padding-top:0.2em;color:white;}
+.sys-add-submit{width:0.7em;height:0.4em;margin-top:0.2em;margin-left:0.2em;cursor: pointer;float:left;text-align:center;line-height: 0.4em;border-radius: 0.1em;border:0.01em solid white;}
+.sys-add-submit p{font-size: 0.25em;color:white;}
+
+.friend-content{width:5em;margin-top:0.1em;border-top:0.01em solid #24272c;display:none;}
+.friend-item{width:5em;height:0.9em;cursor: pointer;line-height: 0.9em;border-bottom:0.01em solid #24272c;}
+.friend-item img{display:block;float:left;width:0.6em;height:0.6em;margin-left:0.3em;margin-top:0.15em;border-radius: 0.1em;}
+.friend-item p{font-size: 0.26em;float:left;margin-left:0.6em;color:white;}
+/*右击好友列表的弹出层样式开始*/
+.f-option{position:absolute;z-index:999;top:0em;left:0em;display:none;width:1.6em;height:1.2em;background: white;border-radius: 0.2em;}
+.delete,.sendmsg{width:1.6em;height:0.6em;text-align: center;line-height:0.6em;cursor: pointer;}
+.delete p,.sendmsg p{font-size: 0.25em;}
+
+.bg{width:100%; height:100%; position:fixed; left:0; top:0; z-index:555; display:none;}
+/*右击好友列表的弹出层样式结束*/
+
+/*右边发消息部分样式开始*/
+.main-message{width:100%;position:relative;height:100%;}
+.name{height:0.9em;border-bottom:0.01em solid #d6d6d6;line-height: 0.9em;}
+.name p{font-size: 0.25em;text-align: center;}
+/*存放消息的div样式开始*/
+.chat-record{width:100%;height:60%;overflow-y:scroll;font-size: 0.3em;}
+.chat-record p{padding-left:1em;padding-top:0.5em;}
+/*存放消息的div样式结束*/
+.send-msg{width:13em;height:3.2em;position:absolute;bottom:0em;left:0em;border-top:0.01em solid #d6d6d6;}
+.icons{width:100%;height:0.8em;}
+.icons img{display:block;width:0.5em;cursor: pointer;height:0.5em;float:left;margin-top:0.15em;margin-left:0.1em;}
+.input-content{width:100%;height:1.6em;background: red;}
+textarea{width:100%;height:100%;border:none;outline: none;font-size: 0.3em;font-family: "Microsoft Yahei";background: #EEEEEE;}
+.submit{width:100%;height:0.8em;line-height: 0.5em}
+.submit span{font-size: 0.25em;cursor: pointer;margin-right:2em;text-align:center;float:right;display:block;width:6em;height:2em;background: white;border-radius: 0.4em;border:0.01em solid #c1c1c1}
+/*右部发消息部分样式结束*/
+
+/*好友印象样式开始*/
+
+.unselect p{font-size:0.1em;text-align:center;padding-top:2em;}
+.null-inpress{font-size:0.3em;text-align:center;padding-top:2em;}
+.impress{width:13em;height:100%;display:none;}
+.friend-info{width:12em;height:1.5em;margin:0.3em 0.5em;}
+.friend-info img{display:block;height:1.5em;width:1.5em;float:left;border-radius: 0.2em;}
+.friend-info p{font-size:0.3em;padding-top:0.4em;padding-left: 6em;}
+.evaluate-title{width:12em;height:0.5em;line-height: 0.5em;margin:0em 0.5em 0.2em 0.5em;border-bottom:0.01em solid #d6d6d6;}
+.evaluate-title p{font-size: 0.3em;}
+
+
+.evaluate-list{width:12em;height:4.9em;margin:0 auto;overflow-y:scroll;}
+.evaluate-item{width:11em;min-height:1.2em;margin-bottom:0.4em;overflow: hidden;}
+.img-wrap{width:1.2em;height:1.2em;float:left;}
+.evaluate-item img{width:1.2em;height:1.2em;border-radius: 0.2em;}
+.frient-remark{width:9.8em;float:right;}
+.frient-remark p{font-size: 0.27em;padding-left:0.5em;}
+
+
+.evaluate{width:12em;height:2em;margin:0.1em 0.5em 0em 0.5em;}
+.my-evaluate{width:8em;height:100%;float:left;background: yellow;}
+.evaluate-submit{width:4em;height:100%;float:right;}
+.evaluate-submit a{display:block;font-size:0.3em;width:5em;line-height: 2em;text-align: center;height:2em;margin-left:1em;margin-top:4.5em;border-radius: 0.4em;border:0.01em solid #c1c1c1;background: white;}
+/*好友印象样式结束*/
