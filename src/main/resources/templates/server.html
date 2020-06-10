@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>服务器端发送信息的页面</title>
+<!--    <script th:src="@{/js/jquery.min.js}"></script>-->
+    <script src="https://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>
+    <script type="text/javascript">
+        function sendAll() {
+            let msg = $("#msg").val();
+            alert("msg:"+msg);
+            if(msg != null){
+                $.ajax({
+                        method:'get',
+                        url:'/sendMessages',
+                        data:{
+                            msg:msg
+                        },
+                        success:function (data) {
+                            window.location.href = "https://localhost:8087" + "/" + data;
+                        }
+                    }
+
+                )
+            }else{
+                alert("请填写要发送的内容");
+            }
+        }
+    </script>
+</head>
+<body>
+当前在线人数总计<div id="sum" th:text="${num}"></div>
+向客户端发送消息<label for="msg"></label><input type="text" id="msg"/><br/>
+<input type="button" value="全体发送" onclick="sendAll()"/>
+</body>
+</html>

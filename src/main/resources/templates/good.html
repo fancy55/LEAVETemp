@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en"  xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="${good.getName()}"></title>
+    <script type="text/javascript">
+        var index=0;
+        //改变图片
+        function ChangeImg() {
+            index++;
+            var a=document.getElementsByClassName("img-slide");
+            if(index>=a.length) index=0;
+            for(var i=0;i<a.length;i++){
+                a[i].style.display='none';
+            }
+            a[index].style.display='block';
+        }
+        //设置定时器，每隔两秒切换一张图片
+        setInterval(ChangeImg,2000);
+
+        function buy(){
+            $.ajax({
+                method: 'get',
+                // async: true,
+                url: '/send1',
+                success: function (data) {
+                    flag = data;
+                    alert("手机号发送验证成功");
+                }
+            })
+        }
+        
+        function cancelFavor() {
+            $.ajax({
+                method: 'post',
+                // async: true,
+                url: '/cfavor',
+                data: {
+                    favor: JSON.stringify({
+                        idCard: $("#idCard").val(),
+                        publishIdCard: $("#publishIdCard").val(),
+                        pDate: $("#pDate").val()
+                    })
+                },
+                success: function (data) {
+                    alert("已取消收藏")
+                    // window.location.href = "/good?publishIdCard="+$("#publishIdCard").val()+"&pDate="+$("#pDate").val()+"&idCard="+$("#idCard").val();
+                }
+            })
+        }
+        
+        function doFavor() {
+            $.ajax({
+                method: 'post',
+                // async: true,
+                url: '/dfavor',
+                data: {
+                    favor: JSON.stringify({
+                        idCard: $("#idCard").val(),
+                        publishIdCard: $("#publishIdCard").val(),
+                        pDate: $("#pDate").val()
+                    })
+                },
+                success: function (data) {
+                    alert("收藏成功")
+                    // window.location.href = "/good?publishIdCard="+$("#publishIdCard").val()+"&pDate="+$("#pDate").val()+"&idCard="+$("#idCard").val();
+                }
+            })
+        }
+        
+        function cancelLike() {
+            $.ajax({
+                method: 'post',
+                // async: true,
+                url: '/clike',
+                data: {
+                    likeGoods: JSON.stringify({
+                        idCard: $("#idCard").val(),
+                        publishIdCard: $("#publishIdCard").val(),
+                        pDate: $("#pDate").val()
+                    })
+                },
+                success: function (data) {
+                    alert("已取消点赞")
+                    // window.location.href = "/good?publishIdCard="+$("#publishIdCard").val()+"&pDate="+$("#pDate").val()+"&idCard="+$("#idCard").val();
+                }
+            })
+        }
+        
+        function doLike () {
+            $.ajax({
+                method: 'post',
+                // async: true,
+                url: '/dlike',
+                data: {
+                    likeGoods: JSON.stringify({
+                        idCard: $("#idCard").val(),
+                        publishIdCard: $("#publishIdCard").val(),
+                        pDate: $("#pDate").val()
+                    })
+                },
+                success: function (data) {
+                    alert("点赞成功")
+                    // window.location.href = "/good?publishIdCard="+$("#publishIdCard").val()+"&pDate="+$("#pDate").val()+"&idCard="+$("#idCard").val();
+                }
+            })
+        }
+    </script>
+    <script src="https://cdn.staticfile.org/vue/2.2.2/vue.min.js"></script>
+    <script src="https://cdn.bootcss.com/jquery/3.4.1/jquery.min.js"></script>
+    <script src="js/bootstrap.js" type="application/javascript"></script>
+    <link rel="stylesheet" href="css/bootstrap-theme.css"/>
+    <link rel="stylesheet" href="css/bootstrap.css"/>
+    <link rel="stylesheet" type="text/css" href="css/tb.css" />
+    <link rel="stylesheet" type="text/css" href="css/other.css" />
+    <link rel="stylesheet" type="text/css" href="css/slideshow.css" />
+</head>
+<body>
+<div th:insert="index :: nav" class="div_f"> </div>
+<input type="hidden" th:value="${good.getPublishIdCard()}" id="publishIdCard">
+<input type="hidden" th:value="${user.getIdCard()}" id="idCard">
+<input type="hidden" th:value="${good.getPDate()}" id="pDate">
+<div class="left">
+    <div class="left">
+        <img class="img-slide img1" th:src="${good.getPhoto1()}" alt="1"  height="400" width="550">
+<!--        <img class="img-slide img1" th:src="${good.getPhoto2()}" alt="2"  height="400" width="550">-->
+<!--        <img class="img-slide img1" th:src="${good.getPhoto3()}" alt="3"  height="400" width="550">-->
+<!--        <img class="img-slide img1" th:src="${good.getPhoto4()}" alt="4"  height="400" width="550">-->
+<!--        <img class="img-slide img1" th:src="${good.getPhoto5()}" alt="5"  height="400" width="550">-->
+<!--        <img class="img-slide img1" th:src="${good.getPhoto6()}" alt="6"  height="400" width="550">-->
+        <div>
+            <hr width="550">
+            <span class="span-left">
+                <span class="glyphicon glyphicon-heart">收藏数：</span>
+    <!--            <span class="glyphicon glyphicon-heart-empty">收藏数：</span>-->
+                <span th:text="${favorCnt}"></span>
+            </span>
+            <span class="line">|</span>
+            <span  class="span-right">
+                <span class="glyphicon glyphicon-thumbs-up">点赞数：</span>
+    <!--            <span class="glyphicon glyphicon-hand-right">点赞数：</span>-->
+                <span th:text="${likeCnt}"></span>
+            </span>
+            <hr width="550">
+        </div>
+    </div>
+    <div class="right-middle">
+        <div class="right-middle-bottom">
+            <div class="price">
+                <span>名称：</span>
+                <span th:text="${good.getName()}"></span>
+            </div>
+            <div>
+                <span  class="price">卖家</span>
+                <span><a th:href="@{'/mine?idCard='+${user.getIdCard()}+'&other='+${user.getIdCard()}}" th:text="${good.getNickName()}"> </a></span>
+                <span  class="price">描述:</span>
+                <span th:text="${good.getDescription()}" class="description"></span>
+            </div>
+            <div class="price">
+                <span>价格：</span>
+                <span th:text="${good.getPrice()}" class="price-goods" ></span>
+            </div>
+            <div class="price">
+                <span>交易地址：</span>
+                <span th:text="${good.getAddress()}" ></span>
+            </div>
+            <div class="price">
+                <span>发布时间：</span>
+                <span th:text="${good.getPDate()}"></span>
+            </div>
+            <div>
+                <input type="button" onclick="buy()" value="立即交易" class="btn btn-success">
+                <input type="button" onclick="cancelFavor()" value="取消收藏" class="btn btn-success" th:if="${isFavor=='已收藏'}" id="cfavor">
+                <input type="button" onclick="doFavor()" value="收藏" class="btn btn-success" th:if="${isFavor=='未收藏'}" id="dfavor">
+                <input type="button" onclick="cancelLike()" value="取消点赞" class="btn btn-success" th:if="${isLike=='已点赞'}" id="clike">
+                <input type="button" onclick="doLike()" value="点赞" class="btn btn-success" th:if="${isLike=='未点赞'}" id="dlike">
+            </div>
+        </div>
+    </div>
+</div>
+<div class="right">
+    <div>点赞者：</div>
+    <div class="div_c_1">
+        <span  th:each="like:${users}">
+            <a th:href="@{'/mine?idCard='+${user.getIdCard()}+'&other='+${like.getIdCard()}}"><img th:src="${like.getPhoto()}" height="50" width="50"></a>
+        </span>
+    </div>
+    <hr>
+    <div>评论者：</div>
+    <div class="div_c_2">
+        <div th:each="leave:${leaves}">
+            <div>
+                <div><a th:href="@{'/mine?idCard='+${user.getIdCard()}+'&other='+${leave.getKey().get('idCard')}}" class="nickname" th:text="${leave.getKey().get('nickname')}"></a></div>
+                <div>
+                    <div th:text="${leave.getKey().get('content')}" class="main"></div>
+                </div>
+                <div th:each="leave1:${leave.getValue()}" class="content-bg main" >
+                    <div>
+                        <span><a th:href="@{'/mine?idCard='+${user.getIdCard()}+'&other='+${leave1.get('idCard')}}"  th:text="${leave1.get('nickname')}+':'"> </a></span>
+                        <span th:text="${leave1.get('content')}"></span>
+                    </div>
+                    <div align="right" class="content" th:text="${leave1.get('date')}"></div>
+                </div>
+                <div >
+                    <span class="left-comment content" th:text="${leave.getKey().get('date')}"></span>
+                    <span th:text="${leave.getValue().size()}" class="glyphicon glyphicon-comment"></span>
+                </div>
+            </div>
+            <hr>
+        </div>
+    </div>
+</div>
+<div th:insert="navigation :: footer"> </div>
+</body>
+</html>

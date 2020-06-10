@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+<head>
+<!--    <meta charset="UTF-8">-->
+    <title>客户端首页</title>
+    <!--这里必须是双标签-->
+    <!--<script th:src="@{/js/jquery.min.js}"/>-->
+<!--    <script th:src="@{/js/jquery.min.js}"></script>-->
+    <script src="https://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>
+
+    <script type="text/javascript">
+
+        //放在这里是获取不到值的，应该放在function里面
+        //var user = $("#user").val();
+        let ws = null;//不能在send()里再新建ws，因为ws建立连接时已存在
+        //创建连接
+        function connect(){
+            let user = $("#user").val();
+            // alert("user"+user);
+            if(user != null){
+                if('WebSocket' in window){
+                    ws = new WebSocket("wss://localhost:8087/websocket/"+user);
+                    let msg = $("#writeMsg").val();
+                    // alert(window.location.protocol);
+                    ws.send("hi");
+                    alert("hi "+user+" "+msg);
+                    ws.send(msg.toString());
+                    alert(msg);
+                }else{
+                    alert("该浏览器不支持websocket");
+                }
+
+
+                ws.onmessage = function(evt){
+                    alert("收到消息："+evt.data);
+                };
+
+
+                ws.onclose = function(){
+                    alert("连接中断");
+                };
+
+
+                ws.onopen = function(){
+                    alert("连接成功");
+                };
+
+                ws.onerror = function () {
+                    alert("连接出错");
+                }
+
+            }else {
+                alert("请输入您的ip");
+
+            }
+        }
+
+        //发送消息
+        function sendMsg(){
+            // ws = new WebSocket("ws://localhost:8087/sendMessages");
+            ws.send($("#writeMsg").val());
+        }
+    </script>
+</head>
+<body>
+    请输入您的用户ip<input type="text" id="user">
+    <input type="button" value="连接" onclick="connect()"><br/>
+    请填写要发送的内容<input type="text" id="writeMsg">
+    <input type="button" value="发送" onclick="sendMsg()">
+</body>
+</html>

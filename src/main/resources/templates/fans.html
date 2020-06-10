@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en"  xmlns:th="http://www.thymeleaf.org">
+<head >
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <script src="https://cdn.staticfile.org/vue/2.2.2/vue.min.js"></script>
+    <script src="https://cdn.bootcss.com/jquery/3.4.1/jquery.min.js"></script>
+    <script src="js/bootstrap.js" type="application/javascript"></script>
+    <link rel="stylesheet" href="css/bootstrap-theme.css"/>
+    <link rel="stylesheet" href="css/bootstrap.css"/>
+    <link rel="stylesheet" type="text/css" href="css/tb.css" />
+    <link rel="stylesheet" type="text/css" href="css/other.css" />
+    <link rel="stylesheet" type="text/css" href="css/slideshow.css" />
+    <link rel="stylesheet" type="text/css" href="css/login.css" />
+    <title>我的粉丝</title>
+</head>
+<body>
+<div th:insert="index :: nav"> </div>
+<div style="width: 60%;background-color: #e5ffea;margin-left: 20%;margin-top:3%;">
+    <h1 align="center">我的粉丝 <span style="float: right;" th:text="'共'+${fansCnt}+'人'"></span></h1>
+    <hr>
+    <div th:if="${f!=null}" th:each="f:${fans}">
+        <div>
+            <div>
+                <img th:src="${f.getPhoto()}" width="100px" height="100px">
+                <span th:text="${f.getNickName()}"></span>
+                <input type="button" class="btn btn-success" value="移除粉丝" style="float: right">
+            </div>
+        </div>
+        <hr>
+    </div>
+</div>
+<!--<div style="width: 20%"></div>-->
+<div th:insert="navigation :: footer"> </div>
+</body>
+</html>

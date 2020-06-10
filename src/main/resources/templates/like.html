@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en"  xmlns:th="http://www.thymeleaf.org">
+<head >
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <script src="https://cdn.staticfile.org/vue/2.2.2/vue.min.js"></script>
+    <script src="https://cdn.bootcss.com/jquery/3.4.1/jquery.min.js"></script>
+    <script src="js/bootstrap.js" type="application/javascript"></script>
+    <link rel="stylesheet" href="css/bootstrap-theme.css"/>
+    <link rel="stylesheet" href="css/bootstrap.css"/>
+    <link rel="stylesheet" type="text/css" href="css/tb.css" />
+    <link rel="stylesheet" type="text/css" href="css/other.css" />
+    <link rel="stylesheet" type="text/css" href="css/slideshow.css" />
+    <link rel="stylesheet" type="text/css" href="css/login.css" />
+    <title>我的点赞</title>
+</head>
+<body>
+<div th:insert="index :: nav"> </div>
+<div style="width: 65%;background-color: #e5ffea;margin-left: 20%;margin-top:3%;">
+    <h1 align="center">我的喜欢 <span style="float: right;" th:text="'共'+${likeCnt}+'件'"></span></h1>
+    <hr>
+    <div th:each="good1:${like}" style="float: left">
+        <span class="pc-items-list">
+            <a th:if="${user!=null}" th:href="@{'/good?publishIdCard='+${good1.getPublishIdCard()}+'&pDate='+${good1.getPDate()}+'&idCard='+${user.getIdCard()}}" >
+                <!--                    <a th:if="${user==null}" th:href="@{'/good?publishIdCard='+${good1.getPublishIdCard()}+'&pDate='+${good1.getPDate()}+'&idCard='}" >-->
+                <div class="pc-items-item item-5">
+                    <div class="pc-items-item-title " align="center" >
+                        <img class="icon-img" th:src ="${good1.getPhoto1()}"  height="200" width="200">
+                        <span class="title-text" th:text="${good1.getDescription()}"></span>
+                    </div>
+                    <div class="tip-con" align="center">
+                        <div class="coupon-icon">
+                            <span class="coupon-icon-text" th:text="${good1.getName()}"></span>
+                            <!--                    <span class="coupon-icon-num" th:text="'¥'+${good1.getPrice()}"></span>-->
+                            <span class="coupon-icon-t">
+                                <span class="coupon-icon-circle"></span>
+                            </span>
+                            <span class="coupon-icon-b">
+                                <span class="coupon-icon-circle"></span>
+                            </span>
+                        </div>
+                    </div>
+                    <br>
+                    <div class="price-con">
+                        <span class="coupon-price-title">¥</span>
+                        <span class="coupon-price-afterCoupon" th:text="${good1.getPrice()}"></span>
+                        <!--                <span class="coupon-price-old">¥19.8</span>-->
+                    </div>
+                    <div class="seller-info" >
+                        <span><img class="icon-img" th:src ="${good1.getPhoto()}"  height="20" width="20"> </span>
+                        <span class="seller-name" th:text="${good1.getNickName()}">
+                    <!--                    <span class="atbfont seller-icon" ></span>-->
+                        </span>
+                    </div>
+                    <div class="item-footer" align="right">
+                        <span class="item-tags" th:text="${good1.getPDate().substring(0,10)}" ></span>
+                        <span class="sell-info"  th:text="${good1.getStatus()}" ></span>
+                    </div>
+                </div>
+            </a>
+        </span>
+    </div>
+</div>
+<div th:insert="navigation :: footer"> </div>
+</body>
+</html>

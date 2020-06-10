@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en"  xmlns:th="http://www.thymeleaf.org">
+<head >
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <title th:text="${user.getNickName()}+'の个人信息'"></title>
+    <script src="https://cdn.staticfile.org/vue/2.2.2/vue.min.js"></script>
+    <script src="https://cdn.bootcss.com/jquery/3.4.1/jquery.min.js"></script>
+    <script src="js/bootstrap.js" type="application/javascript"></script>
+    <link rel="stylesheet" href="css/bootstrap-theme.css"/>
+    <link rel="stylesheet" href="css/bootstrap.css"/>
+    <link rel="stylesheet" type="text/css" href="css/tb.css" />
+    <link rel="stylesheet" type="text/css" href="css/other.css" />
+    <link rel="stylesheet" type="text/css" href="css/slideshow.css" />
+    <link rel="stylesheet" type="text/css" href="css/login.css" />
+    <script type="text/javascript">
+
+        let flag = ""
+
+        function alterP() {
+            $.ajax({
+                method: 'post',
+                url: '/alter/photo',
+                processData: false,
+                // contentType: "multipart/form-data;boundary=----WebKitFormBoundaryKPjN0GYtWEjAni5F",
+                contentType: false,
+                async: true,
+                data: {
+                    file: $("#file").val(),
+                    idCard: $("#idCard").val()
+                },
+                success: function (data) {
+                    alert("修改成功")
+                    window.location.href = "/mine?idCard="+$("#idCard").val()
+                }}
+            )
+        }
+        
+        function alterInfo() {
+            alert("准备修改")
+            $("#nickname").attr("disabled",false)
+            $("#name").attr("disabled",false)
+            $("#sex").attr("disabled",false)
+            $("#age").attr("disabled",false)
+            $("#college").attr("disabled",false)
+            $("#grade").attr("disabled",false)
+            $("#major").attr("disabled",false)
+            $("#address").attr("disabled",false)
+            $("#confirmI").attr("disabled",false)
+        }
+
+        function confirminfo() {
+            $.ajax({
+                    method: 'post',
+                    url: '/alter/info',
+                    data: {
+                        user: JSON.stringify({
+                            nickname: $("#nickname").val(),
+                            name: $("#name").val(),
+                            sex: $("#sex").val(),
+                            age: $("#age").val(),
+                            college: $("#college").val(),
+                            grade: $("#grade").val(),
+                            major: $("#major").val(),
+                            address: $("#address").val(),
+                            idCard: $("#idCard").val()
+                        })
+                    },
+                    success: function (data) {
+                        alert("修改成功")
+                        window.location.href = "/mine?idCard="+$("#idCard").val()
+                    }
+                }
+            )
+        }
+
+        function alterPhone() {
+            alert("准备修改")
+            $("#phone").attr("disabled",false)
+            $("#yzm").attr("disabled",false)
+            $("#getYzm").attr("disabled",false)
+            $("#confirmYzm").attr("disabled",false)
+            $("#confirmP").attr("disabled",false)
+        }
+
+        function confirmPInfo() {
+            let yzm = $("#yzm").val();
+            // alert(flag+"===flag")
+            if(flag != yzm){
+                alert("验证码错误")
+                window.location.href = "/mine?idCard="+$("#idCard").val();
+                return;
+            }
+            else{
+                alert("验证成功")
+                $.ajax({
+                        method: 'post',
+                        url: '/alter/info',
+                        data: {
+                            user: JSON.stringify({
+                                nickname: $("#phone").val(),
+                                idCard: $("#idCard").val()
+                            })
+                        },
+                        success: function (data) {
+                            alert("修改成功")
+                            window.location.href = "/mine?idCard="+$("#idCard").val()
+                        }
+                    }
+                )
+            }
+        }
+
+        function alterPassword() {
+            alert("准备修改")
+            $("#password").attr("disabled",false)
+            $("#password1").attr("disabled",false)
+            $("#confirmPa").attr("disabled",false)
+        }
+
+        function confirmPaInfo(){
+            if($("#password").val() == $("#password1").val()){
+                // alert("验证成功")
+                $.ajax({
+                        method: 'post',
+                        url: '/alter/password',
+                        data: {
+                            user: JSON.stringify({
+                                nickname: $("#phone").val(),
+                                idCard: $("#password").val()
+                            })
+                        },
+                        success: function (data) {
+                            alert("修改成功")
+                            window.location.href = "/mine?idCard="+$("#idCard").val()
+                        }
+                    }
+                )
+            }else alert("两次密码不一致")
+        }
+
+        function getYZM(){
+            let phone = $("#phone").val();
+            if(phone.length !=11)alert("手机号错误！请重新输入！")
+            else {
+                $.ajax({
+                    method: 'get',
+                    async: true,
+                    url: '/send1/' + phone,
+                    success: function (data) {
+                        flag = data;
+                        alert("手机号发送验证成功");
+                    }
+                })
+            }
+        }
+    </script>
+    <style type="text/css">
+        hr{
+            margin-top: 15px;
+            border-bottom: 15px;
+        }
+        .info{
+            color: #000;
+            background-color: #FFFFFF;
+            margin-left: 20px;
+        }
+    </style>
+</head>
+<body>
+<div th:insert="index :: nav"> </div>
+<div style="width: 20%"></div>
+<div style="width: 30%;background-color: #e5ffea;margin-left: 35%;margin-top:3%;">
+    <h1 align="center">个人资料</h1>
+    <hr>
+    <div align="left">
+        <span>头像：</span>
+        <img th:if="${other==null}" th:src="${user.getPhoto()}" width="50px" height="50px">
+        <img th:if="${other!=null}" th:src="${other.getPhoto()}" width="50px" height="50px">
+        <form enctype="multipart/form-data" action="/alter/photo" method="post">
+            <input  th:if="${other==null}" type="hidden" th:value="${user.getIdCard()}" id="idCard" name="idCard">
+            <input  th:if="${other!=null}" type="hidden" th:value="${other.getIdCard()}" id="idCard" name="idCard">
+            <input  th:if="${other==null}" type="file" id="file" name="file" value="选择图片">
+           <input  th:if="${other==null}" type="submit" id="upload" value="修改头像" ><!--onclick="alterP()" -->
+        </form>
+    </div>
+    <hr>
+    <div>
+        <div>
+            <a><input type="button" th:if="${other==null}" value="修改资料" style="color: #1b6d85;float: right;" onclick="alterInfo()"></a>
+            <a><input type="button" th:if="${other==null}" value="确认修改" style="color: #1b6d85;float: right;margin-right: 20px;" onclick="confirminfo()" disabled="true" id="confirmI"></a>
+        </div><br><br>
+        <div>昵称：</div>
+        <input type="text" th:if="${other==null}"  th:value="${user.getNickName()}" disabled="true" class="info" id="nickname">
+        <input type="text" th:if="${other!=null}"  th:value="${other.getNickName()}" disabled="true" class="info" id="nickname">
+    </div>
+    <br>
+    <div>
+        <div>姓名：</div>
+        <input type="text" th:if="${other==null}"  th:value="${user.getName()}" disabled="true" class="info" id="name">
+        <input type="text" th:if="${other!=null}"  th:value="${other.getName()}" disabled="true" class="info" id="name">
+    </div><br>
+    <div>
+        <div>性别：</div>
+        <input type="text" th:if="${other==null}"   th:value="${user.getSex()}" disabled="true" class="info" id="sex">
+        <input type="text" th:if="${other!=null}"   th:value="${other.getSex()}" disabled="true" class="info" id="sex">
+    </div><br>
+    <div>
+        <div>年龄：</div>
+        <input type="text" th:if="${other==null}"   th:value="${user.getAge()}" disabled="true" class="info" id="age">
+        <input type="text" th:if="${other!=null}"   th:value="${other.getAge()}" disabled="true" class="info" id="age">
+    </div><br>
+    <div>
+        <div>学院：</div>
+        <input type="text" th:if="${other==null}"   th:value="${user.getCollege()}" disabled="true" class="info" id="college">
+        <input type="text" th:if="${other!=null}"   th:value="${other.getCollege()}" disabled="true" class="info" id="college">
+    </div><br>
+    <div>
+        <div>专业：</div>
+        <input type="text" th:if="${other==null}"   th:value="${user.getMajor()}" disabled="true" class="info" id="major">
+        <input type="text" th:if="${other!=null}"   th:value="${other.getMajor()}" disabled="true" class="info" id="major">
+    </div><br>
+    <div>
+        <div>年级：</div>
+        <input type="text" th:if="${other==null}"   th:value="${user.getGrade()}" disabled="true" class="info" id="grade">
+        <input type="text" th:if="${other!=null}"   th:value="${other.getGrade()}" disabled="true" class="info" id="grade">
+    </div><br>
+    <div>
+        <div>地址：</div>
+        <input type="text" th:if="${other==null}"   th:value="${user.getAddress()}" disabled="true" class="info" id="address">
+        <input type="text" th:if="${other!=null}"   th:value="${other.getAddress()}" disabled="true" class="info" id="address">
+    </div>
+    <hr>
+    <div>
+        <div>手机号：</div>
+        <div>
+            <a><input type="button" th:if="${other==null}" value="修改手机号" style="color: #1b6d85;float: right;" onclick="alterPhone()" id="alterP"></a>
+            <a><input type="button" th:if="${other==null}" value="确认修改" style="color: #1b6d85;float: right;margin-right: 20px;" onclick="confirmPInfo()" disabled="true" id="confirmP"></a>
+        </div><br><br>
+        <input type="text" th:if="${other==null}"  th:value="${user.getPhone().substring(0,3)+'********'}" disabled="true" class="info" id="phone">
+        <input type="text" th:if="${other!=null}"  th:value="${other.getPhone().substring(0,3)+'********'}" disabled="true" class="info" id="phone">
+        <input type="text" th:if="${other==null}" placeholder="验证码" id="yzm"  disabled="true" class="info" >
+        <input type="button" th:if="${other==null}" value="获取" id="getYzm"  class="btn btn-success info" onclick="getYZM()" disabled="true" >
+<!--        <input type="button" value="确认" id="confirmYzm"  class="btn btn-success info" onclick="confirmYzm1()" disabled="true" >-->
+    </div>
+    <hr>
+    <div>
+        <div>密码：</div>
+        <div>
+            <a><input type="button" th:if="${other==null}" value="修改密码" style="color: #1b6d85;float: right;" onclick="alterPassword()"></a>
+            <a><input type="button" th:if="${other==null}" value="确认修改" style="color: #1b6d85;float: right;margin-right: 20px;" onclick="confirmPaInfo()" disabled="true" id="confirmPa"></a>
+        </div><br><br>
+        <input type="text" value="***********" disabled="true" class="info" id="password">
+        <input type="text" value="***********" th:if="${other==null}" disabled="true" class="info" id="password1">
+    </div><br><br>
+</div>
+<!--<div style="width: 20%"></div>-->
+<div th:insert="navigation :: footer"> </div>
+</body>
+</html>

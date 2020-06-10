@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en"  xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8" http-equiv="Content-Type" content="multipart/form-data">
+    <title>LEAVE发布</title>
+    <script src="https://cdn.staticfile.org/vue/2.2.2/vue.min.js"></script>
+    <script src="https://cdn.bootcss.com/jquery/3.4.1/jquery.min.js"></script>
+    <script src="js/bootstrap.js" type="application/javascript"></script>
+    <link rel="stylesheet" href="css/bootstrap-theme.css"/>
+    <link rel="stylesheet" href="css/bootstrap.css"/>
+    <script type="text/javascript">
+        Date.prototype.Format = function (fmt) {
+            var o = {
+                "M+": this.getMonth() + 1, //月份
+                "d+": this.getDate(), //日
+                "H+": this.getHours(), //小时
+                "m+": this.getMinutes(), //分
+                "s+": this.getSeconds(), //秒
+                "q+": Math.floor((this.getMonth() + 3) / 3), //季度
+                "S": this.getMilliseconds() //毫秒
+            };
+            if (/(y+)/.test(fmt)) fmt = fmt.replace(RegExp.$1, (this.getFullYear() + "").substr(4 - RegExp.$1.length));
+            for (var k in o)
+                if (new RegExp("(" + k + ")").test(fmt)) fmt = fmt.replace(RegExp.$1, (RegExp.$1.length == 1) ? (o[k]) : (("00" + o[k]).substr(("" + o[k]).length)));
+            return fmt;
+        }
+
+        function goToPublish(){
+            // alert("1:"+$("#file").val())
+            // alert("4:"+$('#upload')[0].files[0].name)
+            // alert("4:"+$('#upload')[0].files[1].name)
+            // alert("4:"+$('#upload')[0].value)
+            // alert("4:"+$('#upload')[0].files)
+            // alert("4:"+$('#upload')[0].files.length)
+            let all_file = $('#file')[0].files.length;
+            let price =$("#price").val();
+            let title =$("#title").val();
+            let description = $("#description").val();
+            let category = $("#category option:selected").val();
+            let address = $("#address").val();
+            let pData_ = "";
+            if(price == ""||description==""||category==""||address==""||title==""){
+                alert("发布信息有误，请重新发布！");
+                return;
+            }
+            if(all_file >6){
+                alert("最多上传六张图片哦！！");
+                return;
+            }
+            if(all_file <=0){
+                alert("至少上传一张图片哦！");
+                return;
+            }
+            // let filename = "";
+
+            for(let i = 1;i <= all_file+1; i++) {
+                let data_ = new FormData($("#photo"));
+                if(i == all_file+1){
+                    $.ajax({
+                        url: "/publishPN",
+                        method: "post",
+                        async: false,
+                        // processData: false,
+                        // contentType: "multipart/form-data; boundary=----WebKitFormBoundaryxTRmCHCbZClzr6EP",
+                        data: {
+                            size: -1,
+                            publishGoods1: JSON.stringify({
+                                publishIdCard: $("#pId").val(),
+                                pDate: pData_
+                            })
+                        },
+                        success: function (data) {
+                            if(i==all_file+1) {
+                                alert("发布成功")
+                                window.location.href = "/index?offset=0&size=100&user=" + $("#pId").val();
+                            }
+                        },
+                        fail: function () {
+                            alert("发布失败")
+                        }
+                    })
+                    return;
+                }//filename=null;}
+                // else filename = "C:/fakepath/"+$('#file')[0].files[i-1].name;
+                // alert(filename+"==========="+i);
+                data_.append('my_file',$('#file')[0].files[i-1]);
+                data_.append('size',i);
+                if(i==1) {
+                    pData_ = new Date().Format("yyyy-MM-dd HH:mm:ss")
+                    data_.append('publishGoods1', JSON.stringify({
+                        name: title,
+                        price: price,
+                        description: description,
+                        category: category,
+                        nickName: $("#pNName").val(),
+                        publishIdCard: $("#pId").val(),
+                        address: address,
+                        photo: $("#pPhoto").val(),
+                        pDate: pData_
+                    }));
+                }else{
+                    data_.append('publishGoods1', JSON.stringify({
+                        name: title,
+                        price: price,
+                        description: description,
+                        category: category,
+                        nickName: $("#pNName").val(),
+                        publishIdCard: $("#pId").val(),
+                        address: address,
+                        photo: $("#pPhoto").val(),
+                        pDate: pData_
+                    }));
+                }
+                // alert(data_+"========data======="+filename)
+                $.ajax({
+                    url: "/publishP",
+                    method: "post",
+                    processData: false,
+                    contentType: false,
+                    async: false,
+                    // contentType: "multipart/form-data; boundary=----WebKitFormBoundaryxTRmCHCbZClzr6EP",
+                    data: data_,
+                    success: function (data) {
+                        // if(i==-1) {
+                        //     alert("发布成功")
+                        //     window.location.href = "/index?offset=0&size=100&user=" + $("#pId").val();
+                        // }
+                    },
+                    fail: function () {
+                        alert("发布失败")
+                    }
+                })
+            }
+        }
+    </script>
+</head>
+<body>
+<input type="hidden" th:value="${user.getIdCard()}" id="pId">
+<input type="hidden" th:value="${user.getNickName()}" id="pNName">
+<input type="hidden" th:value="${user.getPhoto()}" id="pPhoto">
+<div th:insert="index :: nav"> </div>
+<div class="container-fluid main" style="margin-top: 5%;">
+    <div class="row">
+        <div class="col-lg-9 col-md-12 col-xs-12 col-sm-12">
+            <h2><span class="glyphicon glyphicon-send" aria-hidden="true">发布信息</span></h2>
+            <hr>
+
+            <form  >
+                <div class="form-group">
+                    <label for="title" class="glyphicon glyphicon-fire">发布主题（商品名称）</label>
+                    <input type="text" class="form-control" name="title" id="title" placeholder="主题">
+                </div>
+                <form class="form-group" id="photo" name="photo">
+                    <label for="file" class="glyphicon glyphicon-picture">上传图片（最多6张，最少1张）</label>
+                    <form action="" method="post" enctype="multipart/form-data">
+                        <input type="file" name="file" accept="image/*" value="upload" multiple="multiple" id="file">
+                    </form>
+                </form>
+
+                <div class="form-group">
+                    <label for="price" class="glyphicon glyphicon-usd">价格</label>
+                    <input type="text" class="form-control" name="price" id="price" placeholder="价格">
+                </div>
+                <div class="form-group">
+                    <label for="address" class="glyphicon glyphicon-map-marker">位置</label>
+                    <input type="text" class="form-control" name="address" id="address" placeholder="交易位置">
+                </div>
+                <div class="form-group">
+                    <label for="category" class="glyphicon glyphicon-th">类别</label><br/>
+                    <select id="category" >
+                        <option value="book">书籍</option>
+                        <option value="cosmetics">美妆</option>
+                        <option value="sporting">运动</option>
+                        <option value="clothing">服装</option>
+                        <option value="ticket">票券</option>
+                        <option value="planting">园艺</option>
+                        <option value="games">游戏</option>
+                        <option value="instrument">乐器</option>
+                        <option value="digital">数码产品</option>
+                        <option value="household">家居百货</option>
+                        <option value="others">其他</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="description" class="glyphicon glyphicon-pencil">描述</label>
+                    <textarea name="description" id="description" class="form-control" cols="10" rows="10"  placeholder="添加对商品的具体描述"></textarea>
+                </div>
+                <div align="right">
+                    <button type="button" class="btn btn-success" value="发布" onclick="goToPublish()"></button>
+                </div>
+            </form>
+        </div>
+        <div class="col-lg-3 col-md-12 col-xs-12 col-sm-12">
+            <h3>我的biubiu~~</h3>
+             世界上七千个地方 我们定居哪<br>
+             也许明天我们就不再忧愁<br>
+             where u think u're gonna go<br>
+        </div>
+    </div>
+</div>
+<div th:insert="navigation :: footer"> </div>
+</body>
+</html>
