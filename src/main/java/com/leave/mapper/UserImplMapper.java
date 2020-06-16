@@ -2,10 +2,10 @@ package com.leave.mapper;
 
 import com.leave.mapper.imp.UserImpl;
 import com.leave.model.User;
-import org.apache.ibatis.annotations.Insert;
-import org.apache.ibatis.annotations.Param;
-import org.apache.ibatis.annotations.Select;
-import org.apache.ibatis.annotations.Update;
+import org.apache.ibatis.annotations.*;
+
+import java.util.List;
+import java.util.Map;
 
 public interface UserImplMapper extends UserImpl {
     @Insert("insert into user(phone,pswd,status,date,photo,score,idx) values(#{phone},MD5(#{pswd}),'1',now(),'http://47.104.191.228:8089/lev/default.png','0',#{idx})")
@@ -49,4 +49,17 @@ public interface UserImplMapper extends UserImpl {
 
     @Select("select * user where idx = #{idx}")
     User getInfo(@Param("idx")String idx);
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////
+    //以下为权限角色
+    @Delete("delete from user_role where iduser = #{iduser}")
+    int deleteUserRole(String iduser);
+
+    int saveUserRoles(@Param("iduser") String iduser, @Param("idroles") List<String> roleIds);
+
+    Integer count(@Param("params") Map<String, Object> params);
+
+    List<User> list(@Param("params") Map<String, Object> params, @Param("offset") Integer offset,
+                       @Param("limit") Integer limit);
+
 }

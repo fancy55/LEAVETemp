@@ -24,11 +24,12 @@ public interface UserImpl {
     void alterBg(String idx, String bg);//修改背景
     void alterInfo(User user);//修改除头像、密码外其他信息
 
-    void updateLTime(String idx, String ltime);//修改最后一次操作时间--系统检测
-    void updateScore(String idx, String score);//修改积分
+    void updateLTime(String idx, String ltime);//更新最后一次操作时间--系统检测
+    void updateScore(String idx, String score);//更新积分
     void updateQQ(String idx, String qq);//更新QQ账号
 
     void alterStatus(String idx, String status);//修改状态---审核员
 
     User getInfo(String idx); //获取个人信息
+    User getInfoByPhone(String phone); //通过手机获取个人信息
 }

@@ -2,9 +2,8 @@ package com.leave.model;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiModelProperty;
-import lombok.Builder;
-import lombok.Data;
-import lombok.ToString;
+import jdk.nashorn.internal.objects.annotations.Constructor;
+import lombok.*;
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotEmpty;
 
@@ -18,8 +17,10 @@ import java.util.Date;
 @Builder
 @Data
 @ToString
+@AllArgsConstructor
+@NoArgsConstructor
 @Api(value="User对象",description = "用户信息表")
-public class User implements Serializable {
+public class User extends BaseEntity<String> implements Serializable {
     @ApiModelProperty(name = "nick",dataType = "String",value = "昵称len<=15")
     @Size(max=15,min=1)
     private String nick;
@@ -90,4 +91,10 @@ public class User implements Serializable {
     @ApiModelProperty(name = "descri",dataType = "String",value = "个性签名")
     @Size(min=0,max=45)
     private String descri;
+
+    public interface Status {
+        char DISABLED = '0';
+        char VALID = '1';
+        char LOCKED = '2';
+    }
 }

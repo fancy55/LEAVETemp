@@ -23,4 +23,10 @@ public class PageController {
     public String err() {
         return "err";
     }
+
+    @GetMapping("/")
+    @ApiOperation(value="用户登录页面",notes="电话登录")
+    public String login() {
+        return "login";
+    }
 }
