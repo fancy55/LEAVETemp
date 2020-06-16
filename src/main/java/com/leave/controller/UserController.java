@@ -2,7 +2,7 @@ package com.leave.controller;
 
 import com.leave.annotation.LogAnnotation;
 import com.leave.dto.UserDto;
-import com.leave.mapper.UserImplMapper;
+import com.leave.mapper.UserDao;
 import com.leave.model.User;
 import com.leave.service.UserService;
 import com.leave.table.PageTableHandler;
@@ -17,9 +17,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
@@ -35,7 +32,7 @@ public class UserController {
     @Autowired
     UserService userService;
     @Autowired
-    UserImplMapper userMapper;
+    UserDao userMapper;
 
     @LogAnnotation
     @PostMapping("register")

@@ -19,7 +19,7 @@ public class LogService {
     private static final Logger log = LoggerFactory.getLogger("adminLogger");
 
     @Autowired
-    private LogsDao sysLogsDao;
+    private LogsDao logsDao;
 
     /**
      * 用户由调用者设置
@@ -32,7 +32,7 @@ public class LogService {
         }
 
 //		sysLogs.setUser(user);
-        sysLogsDao.save(sysLogs);
+        logsDao.save(sysLogs);
     }
 
     @Async
@@ -46,7 +46,7 @@ public class LogService {
         user.setId(userId);
         sysLogs.setUser(user);
 
-        sysLogsDao.save(sysLogs);
+        logsDao.save(sysLogs);
 
     }
 
@@ -54,7 +54,7 @@ public class LogService {
         Date date = DateUtils.addMonths(new Date(), -3);
         String time = DateFormatUtils.format(date, DateFormatUtils.ISO_8601_EXTENDED_DATE_FORMAT.getPattern());
 
-        int n = sysLogsDao.deleteLogs(time);
+        int n = logsDao.deleteLogs(time);
         log.info("删除{}之前日志{}条", time, n);
     }
 }

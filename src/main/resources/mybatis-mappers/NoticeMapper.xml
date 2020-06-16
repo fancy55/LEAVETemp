@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.boot.security.server.dao.NoticeDao">
+<mapper namespace="com.leave.mapper.NoticeDao">
 
 	<sql id="where">
 		<where>
@@ -33,7 +33,7 @@
 		limit #{offset}, #{limit}
 	</select>
 
-	<select id="listReadUsers" resultType="SysUser">
+	<select id="listReadUsers" resultType="User">
 		select u.* from
 		t_notice_read r inner join sys_user u
 		on u.id = r.userId
@@ -74,7 +74,7 @@
 		<include refid="whereNotice" />
 	</select>
 
-	<select id="listNotice" resultType="com.boot.security.server.dto.NoticeReadVO">
+	<select id="listNotice" resultType="com.leave.dto.NoticeReadVO">
 		select t.*,r.createTime readTime,
 		if(r.createTime is null, 0, 1) isRead,r.userId
 		from t_notice t left join

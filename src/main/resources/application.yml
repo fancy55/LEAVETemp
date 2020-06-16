@@ -76,8 +76,8 @@ spring:
 
 
 mybatis:
-#  type-aliases-package: com.leave.model
-#  mapper-locations: classpath:/mybatis-mappers/*
+  type-aliases-package: com.leave.model
+  mapper-locations: classpath:/mybatis-mappers/*
   configuration:
     map-underscore-to-camel-case: true
 

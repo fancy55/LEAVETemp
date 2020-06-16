@@ -7,7 +7,7 @@ import org.apache.ibatis.annotations.*;
 import java.util.List;
 import java.util.Map;
 
-public interface UserImplMapper extends UserImpl {
+public interface UserDao extends UserImpl {
     @Insert("insert into user(phone,pswd,status,date,photo,score,idx) values(#{phone},MD5(#{pswd}),'1',now(),'http://47.104.191.228:8089/lev/default.png','0',#{idx})")
     void register(@Param("phone")String phone, @Param("idx") String idx, @Param("pswd")String pswd);
 

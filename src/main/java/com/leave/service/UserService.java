@@ -1,7 +1,7 @@
 package com.leave.service;
 
 import com.leave.dto.UserDto;
-import com.leave.mapper.UserImplMapper;
+import com.leave.mapper.UserDao;
 import com.leave.model.User;
 import com.leave.utils.RsaUtil;
 import org.slf4j.Logger;
@@ -10,7 +10,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -25,7 +24,7 @@ public class UserService {
     private static final Logger log = LoggerFactory.getLogger("adminLogger");
 
     @Autowired
-    UserImplMapper userMapper;
+    UserDao userMapper;
     BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
 
